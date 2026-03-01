@@ -1,0 +1,5 @@
+{
+  "name": "Auction Card Exchange",
+  "description": "A premium card auction leaderboard and submission platform powered by Supabase.",
+  "requestFramePermissions": []
+}
