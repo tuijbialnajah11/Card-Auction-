@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer base {
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a5f28;
+    --black: #080808;
+    --dark: #0f0f0f;
+    --panel: #141414;
+    --border: #2a2a2a;
+    --text: #e8e0d0;
+    --muted: #6b6258;
+    --red: #c0392b;
+    --green: #27ae60;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* Diagonal gold accent line */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0; right: 0;
+    width: 3px;
+    height: 100vh;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    z-index: 100;
+  }
+}
+
+@layer components {
+  .nav-btn {
+    @apply bg-none border border-[var(--border)] text-[var(--muted)] font-mono text-[0.7rem] tracking-[0.12em] uppercase px-[1.2rem] py-[0.5rem] cursor-pointer transition-all duration-200;
+  }
+
+  .nav-btn:hover, .nav-btn.active {
+    @apply border-[var(--gold)] text-[var(--gold)];
+  }
+
+  .nav-btn.primary {
+    @apply bg-[var(--gold)] border-[var(--gold)] text-[var(--black)] font-medium;
+  }
+
+  .nav-btn.primary:hover {
+    @apply bg-[var(--gold-light)] text-[var(--black)];
+  }
+
+  .nav-btn.danger {
+    @apply border-[var(--red)] text-[var(--red)];
+  }
+
+  .nav-btn.danger:hover {
+    @apply bg-[var(--red)] text-white;
+  }
+
+  .btn {
+    @apply w-full bg-[var(--gold)] border-none text-[var(--black)] font-mono text-[0.75rem] tracking-[0.2em] uppercase font-medium p-[0.9rem] cursor-pointer transition-all duration-200 mt-[0.5rem];
+  }
+
+  .btn:hover { @apply bg-[var(--gold-light)]; }
+
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .form-control {
+    @apply w-full bg-[var(--dark)] border border-[var(--border)] text-[var(--text)] font-mono text-[0.85rem] px-[1rem] py-[0.75rem] outline-none transition-colors duration-200;
+  }
+
+  .form-control:focus {
+    @apply border-[var(--gold)];
+  }
+
+  .form-control:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .alert {
+    @apply p-[0.75rem_1rem] text-[0.75rem] tracking-[0.05em] mb-[1rem] border-l-[3px] border-solid;
+  }
+
+  .alert.success { @apply border-[var(--green)] bg-[rgba(39,174,96,0.08)] text-[#5dbb7e]; }
+  .alert.error { @apply border-[var(--red)] bg-[rgba(192,57,43,0.08)] text-[#e87368]; }
+  .auction-card {
+    @apply bg-[var(--panel)] border border-[var(--border)] relative overflow-hidden transition-all duration-300 hover:border-[var(--gold-dim)] flex flex-col;
+    animation: slideUp 0.5s ease both;
+  }
+
+  .card-rank-badge {
+    @apply absolute top-0 left-0 bg-[var(--gold)] text-[var(--black)] font-mono text-[0.6rem] font-bold px-2 py-1 z-10;
+  }
+
+  .card-image-placeholder {
+    @apply aspect-[3/4] bg-[var(--dark)] border-b border-[var(--border)] relative overflow-hidden flex items-center justify-center;
+  }
+
+  .card-image-placeholder::after {
+    content: 'CARD ASSET';
+    @apply font-mono text-[0.5rem] tracking-[0.3em] text-[var(--muted)] opacity-20;
+  }
+
+  .card-content {
+    @apply p-5 flex-1 flex flex-col;
+  }
+
+  .card-footer {
+    @apply mt-auto pt-4 border-t border-[var(--border)] grid grid-cols-2 gap-2;
+  }
+
+  .admin-table-row {
+    @apply border-b border-[var(--border)] transition-colors duration-200 hover:bg-white/[0.02];
+  }
+
+  .admin-table-cell {
+    @apply py-4 px-4 align-middle;
+  }
+
+  .alert.info { @apply border-[var(--gold)] bg-[rgba(201,168,76,0.08)] text-[var(--gold)]; }
+
+  .footer-link {
+    @apply text-[var(--muted)] hover:text-[var(--gold)] transition-colors duration-200 text-[0.6rem] tracking-[0.2em] uppercase;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
